@@ -33,7 +33,7 @@ Given the same example list from above:
 2-9 c: ccccccccc is invalid: both position 2 and position 9 contain c.
 How many passwords are valid according to the new interpretation of the policies?
 """
-from typing import List, Optional, Match, AnyStr, Iterator
+from typing import List, Optional, Match, AnyStr, Iterator, Callable
 
 from dataclasses import dataclass
 
@@ -86,33 +86,16 @@ def get_data() -> List[str]:
         return data
 
 
-def is_valid_password_1(line: str) -> bool:
+def is_valid_password(line: str, cls: Callable) -> bool:
     p = re.compile("^([0-9]+)-([0-9]+) ([a-zA-Z]): ([^ ]+)$")
     groups = p.match(line)
 
     if groups is not None:
-        c = PasswordPolicy1(
-            char=groups.group(3),
-            min_occurence=int(groups.group(1)),
-            max_occurence=int(groups.group(2)),
-            password=groups.group(4),
-        )
-
-        return c.is_valid()
-    else:
-        raise BaseException("Pattern not found.")
-
-
-def is_valid_password_2(line: str) -> bool:
-    p = re.compile("^([0-9]+)-([0-9]+) ([a-zA-Z]): ([^ ]+)$")
-    groups = p.match(line)
-
-    if groups is not None:
-        c = PasswordPolicy2(
-            char=groups.group(3),
-            positive=int(groups.group(1)),
-            negative=int(groups.group(2)),
-            password=groups.group(4),
+        c = cls(
+            groups.group(3),
+            int(groups.group(1)),
+            int(groups.group(2)),
+            groups.group(4),
         )
         return c.is_valid()
     else:
@@ -122,12 +105,16 @@ def is_valid_password_2(line: str) -> bool:
 if __name__ == "__main__":
     data = get_data()
 
-    results_policy_1: Iterator[bool] = map(is_valid_password_1, data)
+    results_policy_1: Iterator[bool] = map(
+        lambda x: is_valid_password(line=x, cls=PasswordPolicy1), data
+    )
     print(
         f"There is <{sum(results_policy_1)}> out of <{len(data)}> total passwords according to policy 1."
     )
 
-    results_policy_2: Iterator[bool] = map(is_valid_password_2, data)
+    results_policy_2: Iterator[bool] = map(
+        lambda x: is_valid_password(line=x, cls=PasswordPolicy2), data
+    )
     print(
         f"There is <{sum(results_policy_2)}> out of <{len(data)}> total passwords according to policy 2."
     )
