@@ -27,40 +27,39 @@ Of course, your expense report is much larger. Find the two entries that sum to 
 from typing import Tuple, Optional, List
 from functools import reduce
 
+file_relative_path = 'data.txt'
+target_number = 2020
+
+def get_numbers() -> Optional[List[int]]:
+    with open(file_relative_path, 'r') as f:
+        numbers = [int(line.rstrip()) for line in f]
+        return numbers
+
+def two_sum(numbers: List[int] = get_numbers(), target: int = target_number) -> Optional[Tuple[int, int]]:
+    for i, number in enumerate(numbers[:-1]):
+        complementary = target - number
+        if complementary in numbers[i+1:]:
+            print(f"Solution Found: {number} and {complementary}")
+            return (number, complementary)
+
+    print(f"No solutions exists for target=<{target}>.")
+    return None
+
+def three_sum(numbers: List[int] = get_numbers(), target: int = target_number) -> Optional[Tuple[int, int, int]]:
+    for i, number in enumerate(numbers[:-2]):
+        rest = target - number
+        print(rest)
+        complement_result = two_sum(numbers[i+1:], rest)
+
+        if complement_result is not None:
+            print(f"Solution Found: {number} and {complement_result[0]} and {complement_result[1]}")
+            return (number, complement_result[0], complement_result[1])
+    return None
+
+def multiply_tuple_items(t: Tuple) -> int:
+    return reduce(lambda x, y: x*y, t)
 
 if __name__=='__main__':
-    file_relative_path = 'data.txt'
-    target_number = 2020
-
-    def get_numbers() -> Optional[List[int]]:
-        with open(file_relative_path, 'r') as f:
-            numbers = [int(line.rstrip()) for line in f]
-            return numbers
-
-    def two_sum(numbers: List[int] = get_numbers(), target: int = target_number) -> Tuple[int, int]:
-        for i, number in enumerate(numbers[:-1]):
-            complementary = target - number
-            if complementary in numbers[i+1:]:
-                print(f"Solution Found: {number} and {complementary}")
-                return (number, complementary)
-
-        print(f"No solutions exists for target=<{target}>.")
-        return None
-
-    def three_sum(numbers: List[int] = get_numbers(), target: int = target_number) -> Optional[Tuple[int, int, int]]:
-        for i, number in enumerate(numbers[:-2]):
-            rest = target_number - number
-            print(rest)
-            complement_result = two_sum(numbers[i+1:], rest)
-
-            if complement_result is not None:
-                print(f"Solution Found: {number} and {complement_result[0]} and {complement_result[1]}")
-                return (number, complement_result[0], complement_result[1])
-        return None
-
-    def multiply_tuple_items(t: Tuple) -> int:
-        return reduce(lambda x, y: x*y, t)
-
     x = multiply_tuple_items(two_sum())
     print(x)
 
