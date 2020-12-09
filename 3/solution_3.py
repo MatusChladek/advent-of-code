@@ -66,8 +66,9 @@ In the above example, these slopes would find 2, 7, 3, 4, and 2 tree(s) respecti
 
 What do you get if you multiply together the number of trees encountered on each of the listed slopes?
 """
-from typing import List
 from dataclasses import dataclass
+
+from utils import get_data
 
 
 @dataclass
@@ -80,12 +81,6 @@ class Position:
 
 
 file_relative_path = "data_3.txt"
-
-
-def get_data() -> List[str]:
-    with open(file_relative_path) as f:
-        data = [line.rstrip() for line in f]
-        return data
 
 
 def get_trees_count(slope: Position) -> int:
@@ -106,7 +101,7 @@ def get_trees_count(slope: Position) -> int:
 
 
 if __name__ == "__main__":
-    d = get_data()
+    d = get_data(file_relative_path)
 
     t1 = get_trees_count(Position(1, 1))
     t2 = get_trees_count(Position(3, 1))

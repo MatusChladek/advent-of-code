@@ -34,18 +34,16 @@ In your expense report, what is the product of the three entries that sum to 202
 from typing import Tuple, Optional, List
 from functools import reduce
 
+from utils import get_data
+
 file_relative_path = "data_1.txt"
 target_number = 2020
 
-
-def get_numbers() -> List[int]:
-    with open(file_relative_path) as f:
-        numbers = [int(line.rstrip()) for line in f]
-        return numbers
+data = tuple(map(int, get_data(file_relative_path)))
 
 
 def two_sum(
-    numbers: List[int] = get_numbers(), target: int = target_number
+    numbers: Tuple[int, ...] = data, target: int = target_number
 ) -> Optional[Tuple[int, int]]:
     for i, number in enumerate(numbers[:-1]):
         complementary = target - number
@@ -58,7 +56,7 @@ def two_sum(
 
 
 def three_sum(
-    numbers: List[int] = get_numbers(), target: int = target_number
+    numbers: Tuple[int, ...] = data, target: int = target_number
 ) -> Optional[Tuple[int, int, int]]:
     for i, number in enumerate(numbers[:-2]):
         rest = target - number

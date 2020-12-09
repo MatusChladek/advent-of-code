@@ -41,6 +41,8 @@ import re
 
 from abc import ABCMeta, abstractmethod
 
+from utils import get_data
+
 file_relative_path = "data_2.txt"
 
 
@@ -80,12 +82,6 @@ class PasswordPolicy2(Password):
         return sum_of_true == 1
 
 
-def get_data() -> List[str]:
-    with open(file_relative_path) as f:
-        data = [line.rstrip() for line in f]
-        return data
-
-
 def is_valid_password(line: str, cls: Callable) -> bool:
     p = re.compile("^([0-9]+)-([0-9]+) ([a-zA-Z]): ([^ ]+)$")
     groups = p.match(line)
@@ -103,7 +99,7 @@ def is_valid_password(line: str, cls: Callable) -> bool:
 
 
 if __name__ == "__main__":
-    data = get_data()
+    data = get_data(file_relative_path)
 
     results_policy_1: Iterator[bool] = map(
         lambda x: is_valid_password(line=x, cls=PasswordPolicy1), data
