@@ -39,14 +39,14 @@ file_relative_path = "data_7.txt"
 target = "shiny gold"
 
 
-def does_contain(source: str, tree: defaultdict):
+def does_contain(source: str, tree: defaultdict) -> int:
     children = [bag for bag, amount in tree.get(source, {}).items()]
     if target in children:
         return 1
     return max([does_contain(child, tree) for child in children] + [0])
 
 
-def count_bags(source: str, tree: defaultdict, tmp=1):
+def count_bags(source: str, tree: defaultdict, tmp=1) -> int:
     bags = tree.get(source, {}).items()
     if not bags:
         return tmp
