@@ -46,9 +46,16 @@ def does_contain(source: str, tree: defaultdict):
     return max([does_contain(child, tree) for child in children] + [0])
 
 
+def count_bags(source: str, tree: defaultdict, tmp=1):
+    bags = tree.get(source, {}).items()
+    if not bags:
+        return tmp
+    else:
+        return tmp + sum([amount * count_bags(bag, tree) for bag, amount in bags])
+
+
 if __name__ == "__main__":
     data = get_data(file_relative_path)
-    print(data)
 
     tree: defaultdict = defaultdict(lambda: defaultdict(dict))
 
@@ -59,7 +66,6 @@ if __name__ == "__main__":
 
         children = re.compile(r"(\d+) (.*?) bag").findall(content)
         for amount, bag in children:
-            print(amount, bag)
             tree[source][bag] = int(amount)
 
     result = 0
@@ -68,7 +74,5 @@ if __name__ == "__main__":
             result += 1
     print(f"Result for part 1 is: {result}")
 
-    cnt: Callable = lambda bag: 1 + sum(
-        amount * cnt(bag) for bag, amount in tree.get(source, {}).items()
-    )
-    print(f"Result for part 2 is: {cnt(target) - 1}")
+    result_2: int = count_bags(target, tree) - 1
+    print(f"Result for part 2 is: {result_2}")
