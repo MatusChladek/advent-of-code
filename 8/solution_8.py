@@ -76,12 +76,7 @@ After the last instruction (acc +6), the program terminates by attempting to run
 
 Fix the program so that it terminates normally by changing exactly one jmp (to nop) or nop (to jmp). What is the value of the accumulator after the program terminates?
 """
-from collections import defaultdict
-from typing import List, Tuple
-
-from utils import get_data
-
-import re
+from typing import List
 
 file_relative_path = "data_8.txt"
 
