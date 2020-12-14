@@ -81,42 +81,39 @@ from typing import List
 file_relative_path = "data_8.txt"
 
 if __name__ == "__main__":
-    lines = []
+    data = []
     with open(file_relative_path) as file:
         for line in file:
             p_line: List[str] = line.rstrip().split(" ")
-            lines.append([p_line[0], int(p_line[1])])
+            data.append([p_line[0], int(p_line[1])])
 
-    def move(lines, part_1=False):
+    def move(data, part_1=False):
         seen = set()
         accumulator = 0
-        idx = 0
+        i = 0
         while True:
-            if idx >= len(lines):
+            if i >= len(data):
                 return accumulator
-            move, arg = lines[idx]
-            if idx in seen:
+            move, val = data[i]
+            if i in seen:
                 return accumulator if part_1 else False
-            seen.add(idx)
+            seen.add(i)
             if move == "nop":
-                idx += 1
+                i += 1
             elif move == "acc":
-                accumulator += arg
-                idx += 1
+                accumulator += val
+                i += 1
             elif move == "jmp":
-                idx += arg
+                i += val
 
-    def flip(val):
-        return "jmp" if val == "nop" else "nop"
-
-    def change_piece(lines):
-        for idx, turn in enumerate(lines):
+    def change_piece(data):
+        for i, turn in enumerate(data):
             if turn[0] == "nop" or turn[0] == "jmp":
                 prev = turn[0]
-                lines[idx][0] = flip(turn[0])
-                if accumulator := move(lines):
+                data[i][0] = "jmp" if turn[0] == "nop" else "nop"
+                if accumulator := move(data):
                     return accumulator
-                lines[idx][0] = prev
+                data[i][0] = prev
 
-    print("Part 1", move(lines, True))
-    print("Part 2", change_piece(lines))
+    print(f"Part 1 result is {move(data, True)}")
+    print(f"Part 2 result is: {change_piece(data)}")

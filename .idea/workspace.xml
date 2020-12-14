@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0f2a47fb-e44d-44e1-ab63-4180f5c7dfa1" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/8/data_8.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/8/solution_8.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/9/data_9.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/9/solution_9.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/8/solution_8.py" beforeDir="false" afterPath="$PROJECT_DIR$/8/solution_8.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
